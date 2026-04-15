@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BETANO AI PRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #007FFF, #5927E5);
+    }
+
+    .box-shadow {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #D80032, #A00028);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #00A86B, #007B4F);
+    }
+  </style>
+</head>
+<body class="gradient-bg text-white min-h-screen flex flex-col items-center justify-center p-4">
+
+  <header class="text-center mb-8 fade-in">
+    <h1 class="text-4xl font-bold mb-4">🔴 BETANO AI PRO</h1>
+    <p class="text-lg">Sistema Institucional de Análise de Apostas Esportivas em Real-Time</p>
+  </header>
+
+  <main class="w-full max-w-4xl mx-auto">
+    <section class="bg-white text-gray-900 rounded-lg p-6 mb-6 box-shadow fade-in">
+      <h2 class="text-2xl font-bold mb-4">⚡ Scanner de Mercado</h2>
+      <table class="w-full table-auto text-left">
+        <thead>
+          <tr class="text-sm text-gray-500 border-b">
+            <th class="py-2">Jogo</th>
+            <th class="py-2">Odds Atuais</th>
+            <th class="py-2">Movimento</th>
+            <th class="py-2">Velocidade</th>
+            <th class="py-2">Pressão</th>
+            <th class="py-2">Interpretação</th>
+          </tr>
+        </thead>
+        <tbody id="marketScanner">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="bg-white text-gray-900 rounded-lg p-6 mb-6 box-shadow fade-in">
+      <h2 class="text-2xl font-bold mb-4">📊 Odds Mal Precificadas</h2>
+      <div id="valueAnalysis" class="text-sm space-y-2">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <section class="bg-white text-gray-900 rounded-lg p-6 mb-6 box-shadow fade-in">
+      <h2 class="text-2xl font-bold mb-4">⚖️ Edge Detector</h2>
+      <div class="text-sm space-y-2">
+        <div class="flex justify-between border-b py-2">
+          <span>EDGE (%)</span>
+          <span id="edgeValue" class="font-bold">Calculando...</span>
+        </div>
+        <div class="flex justify-between border-b py-2">
+          <span>Atual Preço do Mercado</span>
+          <span id="marketPrice" class="font-bold">---</span>
+        </div>
+        <div class="flex justify-between py-2">
+          <span>Valor Estimado Real</span>
+          <span id="realValue" class="font-bold">---</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white text-gray-900 rounded-lg p-6 mb-6 box-shadow fade-in">
+      <h2 class="text-2xl font-bold mb-4">📊 Score Institucional</h2>
+      <div class="text-sm flex justify-between items-center border-b py-2">
+        <span>Score Total</span>
+        <span id="score" class="font-bold text-xl">0 / 100</span>
+      </div>
+      <div id="scoreDetails" class="text-sm space-y-2 mt-4">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <section class="bg-white text-gray-900 rounded-lg p-6 mb-6 box-shadow fade-in">
+      <h2 class="text-2xl font-bold mb-4">🚨 Alerta Bet Quente</h2>
+      <div class="text-sm space-y-4" id="betAlert">
+        <p class="text-gray-500 italic">Sem alertas no momento...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center mt-auto text-sm text-gray-300">
+    <p>© 2023 BETANO AI PRO — Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Dummy data for demonstration
+      const marketData = [
+        {
+          game: "Team A vs Team B",
+          odds: "1.85 ↓",
+          movement: "Caindo",
+          speed: "Rápida",
+          pressure: "Compra",
+          interpretation: "Mercado Distorcido"
+        },
+        {
+          game: "Team C vs Team D",
+          odds: "2.50 ↑",
+          movement: "Subindo",
+          speed: "Média",
+          pressure: "Venda",
+          interpretation: "Mercado em Ajuste"
+        }
+      ];
+
+      const marketScanner = document.getElementById("marketScanner");
+
+      marketData.forEach(data => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="py-2">${data.game}</td>
+          <td class="py-2">${data.odds}</td>
+          <td class="py-2">${data.movement}</td>
+          <td class="py-2">${data.speed}</td>
+          <td class="py-2">${data.pressure}</td>
+          <td class="py-2">${data.interpretation}</td>
+        `;
+        marketScanner.appendChild(row);
+      });
+
+      // Example dynamic content for odds mispricing
+      const valueAnalysis = document.getElementById("valueAnalysis");
+      valueAnalysis.innerHTML = `
+        <p><strong>Probabilidade Implícita:</strong> 53%</p>
+        <p><strong>Análise de Mercado:</strong> Tendência consistente. Apostas com EDGE observadas.</p>
+      `;
+
+      // Example EDGE and Score system logic
+      const edgeValue = 12; // Simulating calculation
+      const score = 88; // Simulating calculation
+      document.getElementById("edgeValue").textContent = `${edgeValue}%`;
+      document.getElementById("score").textContent = `${score} / 100`;
+
+      // Example Bet Alert logic
+      const betAlert = document.getElementById("betAlert");
+      if (score >= 86 && edgeValue >= 8) {
+        betAlert.innerHTML = `
+          <div class="p-4 rounded-lg bg-green-100 text-green-700">
+            <p>🚨 <strong>BET QUENTE</strong> 🔥</p>
+            <p><strong>Jogo:</strong> Team A vs Team B</p>
+            <p><strong>Odds:</strong> 1.85</p>
+            <p><strong>Movimento:</strong> Caindo</p>
+            <p><strong>EDGE:</strong> ${edgeValue}%</p>
+            <p><strong>Score:</strong> ${score} / 100</p>
+            <p><strong>Risco:</strong> Baixo</p>
+            <p><strong>Confiança:</strong> Alta</p>
+            <p><strong>🎯 VALUE BET CONFIRMADO</strong></p>
+          </div>
+        `;
+      }
+    });
+  </script>
+
+</body>
+</html>
